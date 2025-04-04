@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Points</title>
+    <style>
+        /* Common Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #e8eaf6;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #5c6bc0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #5c6bc0;
+            color: #ffffff;
+        }
+        .sidebar a.add-apps-btn {
+            background-color: #5c6bc0;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container img {
+            display: block;
+            margin: 0 auto 20px;
+            width: 80px;
+            height: 80px;
+        }
+        .form-container input,
+        .form-container select,
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-container button {
+            background-color: #42a5f5;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #1e88e5;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#">Home</a>
+        <a href="#" class="add-apps-btn">+ Add Apps</a>
+    </div>
+    <div class="main-content">
+        <div class="header">Hello Admin</div>
+        <div class="form-container">
+            <img src="https://via.placeholder.com/80" alt="Placeholder Image">
+            <form method="post" action="{% url 'add_points' %}">
+                {% csrf_token %}
+                <input type="text" name="app_name" placeholder="App Name" required>
+                <input type="text" name="app_link" placeholder="App Link" required>
+                <select name="app_category" required>
+                    <option value="" disabled selected>App Category</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Education">Education</option>
+                    <option value="Social Media">Social Media</option>
+                </select>
+                <select name="sub_category" required>
+                    <option value="" disabled selected>Sub Category</option>
+                    <option value="Gaming">Gaming</option>
+                    <option value="Tools">Tools</option>
+                    <option value="News">News</option>
+                </select>
+                <button type="submit">Add Points</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="position-sticky">
+                    <h4 class="text-center mt-3">Hello {{e.fname}}</h4>
+                    <ul class="nav flex-column mt-4">
+                        <li class="nav-item"><a class="nav-link" href="#">🏠 Home</a></li>
+                        <li class="nav-item"><a class="nav-link" data-bs-toggle="modal" data-bs-target="#profileModal" href="">👤 Profile</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="#">⭐ Points</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">📌 Task</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">🚪 Logout</a></li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-10 ms-sm-auto px-4">
+                <h2 class="mt-4">Tasks</h2>
+                <div class="row">
+                    <!-- Task Cards -->
+                    {% for task in app %}
+                    <div class="col-md-4">
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body d-flex align-items-center">
+                                <img src="/media/{{task.image}}" alt="{{ task.name }}" width="40" class="me-3">
+                                <div>
+                                    <h5 class="card-title">{{ task.app_name }}</h5>
+                                    <a href="/task_details/{{ task.app_name }}" class="text-decoration-none">View in Detail</a>
+                                </div>
+                                {% for p in poin %}
+                                {% if p.app_name == task.app_name %}
+                                <span class="badge bg-success ms-auto">{{ p.points }} Points</span>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Task Detail View -->
+                {% if task_detail %}
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h4><img src="{{ task_detail.icon }}" alt="{{ task_detail.name }}" width="40"> {{ task_detail.name }}</h4>
+                        <p><a href="{{ task_detail.link }}" target="_blank">{{ task_detail.link }}</a></p>
+                        <span class="badge bg-success">{{ task_detail.points }} Points</span>
+                        <hr>
+                        <h5>Upload Screenshot</h5>
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="file" class="form-control" name="screenshot" required>
+                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>First Name:</strong> {{ e.fname }}</p>
+                                <p><strong>Last Name:</strong> {{ e.lname }}</p>
+                                <p><strong>Email:</strong> {{ e.email }}</p>
+                                <p><strong>Mobile:</strong> {{ e.mobile }}</p>
+                                <p><strong>Age:</strong> {{ e.age }}</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

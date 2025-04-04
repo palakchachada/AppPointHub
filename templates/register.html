@@ -1,0 +1,410 @@
+
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+		<title>Guruji Speaks</title>
+		
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="{% static 'assets/img/GrujiSpeaks-img/logo-2.png' %}" type="image/x-icon">
+		
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+				
+		<!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}">
+		<link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}">
+
+		<!-- Feathericon CSS -->
+    	<link rel="stylesheet" href="{% static 'assets/css/feather.css' %}">
+
+    	<!-- Mobile CSS-->
+		<link rel="stylesheet" href="{% static 'assets/plugins/intltelinput/css/intlTelInput.css' %}">
+    	<link rel="stylesheet" href="{% static 'assets/plugins/intltelinput/css/demo.css' %}">
+		
+		<!-- Main CSS -->
+		<link rel="stylesheet" href="{% static 'assets/css/custom.css' %}">
+
+		<style>
+
+			/* / reduced space / */
+
+            .login-body {
+				/* margin: 0;*/
+				padding: inherit; 
+				background-image: url("");
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+			}
+
+			.login-content-info {
+				margin: 0;
+				padding: 22px 0 6px;
+				width: 100%;
+				background-image: url("{% static 'assets/img/GrujiSpeaks-img/background_new.png' %}");
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: cover;
+			}
+
+			.login-content-info .account-content .login-title {
+				padding-bottom: 15px;
+			}
+
+			.login-content-info .account-content .account-info .btn {
+				width: 100%;
+				color: #ffffff;
+				background: #1c3264;
+				border: 1px solid #1c3264;
+				box-shadow: inset 0 0 0 0 #ffffff;
+				-webkit-transition: 0.7s;
+				-ms-transition: 0.7s;
+				transition: 0.7s;
+				font-weight: 600;
+				padding: 10px 15px;
+			}
+		</style>
+
+	</head>		
+	<body class="login-body">
+
+		<!-- Main Wrapper -->
+		<div class="main-wrapper">
+			
+			<!-- Page Content -->
+			<div class="login-content-info">
+				<div class="container">
+
+					<!-- Patient Signup -->
+					<div class="row justify-content-center">
+						<div class="col-lg-4 col-md-6 bg-light p-4 rounded">
+							<div class="account-content">
+								<div class="login-shapes">
+									<div class="shape-img-left">
+										<img src="{% static 'assets/img/shape-01.png' %}" alt="">
+									</div>
+									<div class="shape-img-right">
+										<img src="{% static 'assets/img/shape-02.png' %}" alt="">
+									</div>
+								</div>
+								<div class="account-info">
+									<div class="login-back">
+										<a href="/"><i class="fa-solid fa-arrow-left-long"></i> Back</a>
+									</div>
+									<div class="login-title">
+										<h3> User Signup</h3>
+										<p class="mb-0">Welcome! Please enter your details.</p>
+									</div>   
+									{% comment %} <form action="" method = 'post'> {% endcomment %}
+										<form action="" method = 'post' id="form" onsubmit="return validateForm()">
+                                        {% csrf_token %}
+										<div class="form-group">
+											<label>First Name<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" name="fname" id = "first_name" oninput="convertToTitleCase('fname')" placeholder="Enter first name" required/>
+										</div>
+										<div class="form-group">
+											<label>Last Name<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" name="lname" id='last_name' oninput="convertToTitleCase('lname')"  placeholder="Enter last name" required/>
+										</div>
+										<div class="form-group">
+											<div class="form-group">
+												<label>Phone Number<span style="color: red;">*</span></label>
+												<!-- <input class="form-control form-control-lg group_formcontrol form-control-phone" type="text" id="phone" placeholder="85********" name="whatsapp_no" oninput="formatPhoneNumber(this)" required/> -->
+												<input type="number" class="form-control" placeholder="Enter Phone Number" name="mobile" oninput="formatPhoneNumber(this)"  placeholder="" required/>
+											</div>  											
+											<script>
+												function formatPhoneNumber(input) {
+													// Remove any non-numeric characters (except '+') from the input
+													input.value = input.value.replace(/[^\d+]/g, '');
+											
+													// Remove any leading '+' sign (if present)
+													input.value = input.value.replace(/^(\+?)\+/, '$1');
+											
+													// Limit the input to a maximum of 10 digits (excluding '+')
+													if (input.value.startsWith('+')) {
+														input.value = input.value.substring(0, 12); // '+91' + 10 digits
+													} else {
+														input.value = input.value.substring(0, 10); // 10 digits without '+'
+													}
+												}
+											</script>
+										</div>
+										
+										<!-- <div class="form-group">
+											<label>User ID</label>
+											<input type="text" class="form-control" name =user_id placeholder="Your Login ID" value="{{ generated_user_id }}" readonly>
+										</div> -->
+										<div class="form-group">
+											<label>E-mail<span style="color: red;">*</span></label>
+											<input type="email" class="form-control" name="email"  placeholder="example@email.com"  pattern = "[^@\s]+@[^@\s]+\.[^@\s]+" title="Invalid Email Id" maxlength="50" required>
+										</div>
+                                        <div class="form-group">
+											<label>Age<span style="color: red;">*</span></label>
+											<input type="number" class="form-control" id="age" name="age" min="0" placeholder="Ex. 25">
+											<div id="ageError" style="color: red;"></div>
+										  </div> 
+
+										<!-- <div class="form-group">
+											<label>Date of Birth<span style="color: red;">*</span></label>
+											<input type="date" class="form-control" name="dob" required oninput="calculateAge()" required/>
+										  </div>
+										  <div class="form-group">
+											<label>Age<span style="color: red;">*</span></label>
+											<input type="number" class="form-control" id="age" name="age" min="0" placeholder="Ex. 25"  readonly>
+											<div id="ageError" style="color: red;"></div>
+										  </div>
+
+
+										<div class="form-group">
+											<label>Place of Birth<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" id='birth_place' placeholder="Enter Place of Birth"  oninput="convertToTitleCase('birth_place')" name="birth_place" required>
+										</div>
+
+
+
+										<div class="form-group">
+											<label>Birth Time<span style="color: red;">*</span></label>
+											<input type="time" class="form-control" name="birth_time" placeholder="Ex. 8:25 AM"  required>
+										</div>
+
+
+										<div class="form-group">
+											<label>Gender<span style="color: red;">*</span></label>
+											<select type="text" class="form-control" name="gender"  oninput="this.value = this.value.replace(/[^a-z A-Z]/g, '')" required>
+											<option>Select Gender</option>
+											<option {% if data.gender == 'Male' %}selected{% endif %}>Male</option>
+											<option {% if data.gender == 'Female' %}selected{% endif %}>Female</option>
+											<option {% if data.gender == 'Prefer not to disclose' %}selected{% endif %}>Prefer not to disclose</option>	
+											</select>
+										</div>
+
+										<div class="form-group">
+											<label>City<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" placeholder="Enter City" name="city" id="cityInput" oninput="convertToTitleCase('cityInput')" required>
+										</div>
+										  <script>
+											// The previous function can be reused, so we don't need to repeat it here.
+										  </script>
+                                        
+										<div class="form-group">
+											<label>State<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" placeholder="Enter State" id="stateInput" oninput="convertToTitleCase('stateInput')" name="state" required>
+										</div>
+										  <script>
+											// The previous function can be reused, so we don't need to repeat it here.
+										  </script>
+
+										<div class="form-group">
+											<label>Pin Code<span style="color: red;">*</span></label>
+											<input type="number" class="form-control" placeholder="Enter Pin Code Number" name="pincode" required>
+										</div>
+
+										<div class="form-group">
+											<label>Country<span style="color: red;">*</span></label>
+											<input type="text" class="form-control" placeholder="Enter Country"  name="country" id="countryInput" oninput="convertToTitleCase('countryInput')" required>
+										  </div>
+										  <script>
+											// Function to convert input to title case (only first letter as capital)
+											function convertToTitleCase(inputId) {
+											  const inputElement = document.getElementById(inputId);
+											  const words = inputElement.value.toLowerCase().split(' ');
+											  for (let i = 0; i < words.length; i++) {
+												words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
+											  }
+											  inputElement.value = words.join(' ');
+											}
+										  </script>
+ -->
+										
+										<div class="form-group">
+											<div class="form-group-flex">
+												<label>Password<span style="color: red;">*</span></label>
+											</div>
+											<div class="pass-group">
+												<input type="password" id = 'password' name='password' class="form-control pass-input" placeholder="*************">
+												<span class="feather-eye toggle-password"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="form-group-flex">
+												<label>Confirm Password<span style="color: red;">*</span></label>
+												
+											</div>
+											<div class="pass-group">
+												<input type="password" id="confirm_password" name='confirm_password' class="form-control pass-input-sub" placeholder="*************">
+												<span class="feather-eye toggle-password-sub"></span>
+											</div>
+										</div>
+										<div class="form-group form-check-box terms-check-box">
+											<div class="form-group-flex">
+												<label class="custom_check">
+													I have read and agree to AppPointHub <a>Terms of Service</a> and <a>Privacy Policy.</a> 
+													<input type="checkbox" name="Terms">
+													<span class="checkmark"></span>
+												</label>
+											</div>
+										</div>
+										<div class="form-group">
+											<button class="btn btn-block" type="submit">Sign Up</button>
+										</div>
+										<!-- <div class="form-group back-btn-light">
+											<button class="btn btn-light btn-block" type="submit">Create an Account</button>
+										</div> -->
+										<div class="account-signup">
+											<p>Already a Member? <a href="/login/">Sign in</a></p>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /Patient Signup -->
+
+				</div>
+			</div>		
+			<!-- /Page Content -->
+
+			
+
+		</div>		
+		<!-- /Main Wrapper -->
+	
+		<!-- jQuery -->
+		<script src="{% static 'assets/js/jquery-3.6.4.min.js' %}"></script>
+		
+		<!-- Bootstrap Bundle JS -->
+		<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+		
+		<!-- Feather Icon JS -->
+		<script src="{% static 'assets/js/feather.min.js' %}"></script>
+
+		<!-- Mobile Input -->
+		<script src="{% static 'assets/plugins/intltelinput/js/intlTelInput.js' %}"></script>
+
+		<!-- Custom JS -->
+		<script src="{% static 'assets/js/script.js' %}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.4/dist/sweetalert2.min.css">
+	
+	</body>
+</html>
+
+
+
+{% comment %} <script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        var password = document.getElementById('password').value;
+        var confirm_password = document.getElementById('confirm_password').value;
+        var termsCheckbox = document.querySelector('input[name="Terms"]');
+        
+        // Password validation
+        var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+        if (!passwordRegex.test(password)) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Display a pop-up message
+            alert('Password must include at least one uppercase letter, one lowercase letter, one digit, one special symbol, and be at least 8 characters long.');
+            
+            return;
+        }
+        
+        // Confirm password validation
+        if (password !== confirm_password) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Display a pop-up message
+            alert('Password and confirm password do not match!');
+            
+            return;
+        }
+        
+        // Terms and conditions checkbox validation
+        if (!termsCheckbox.checked) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Display a pop-up message
+            alert('Please agree to the terms of service and privacy policy.');
+        }
+    });
+</script>
+
+<script>
+	document.querySelector("form").addEventListener("submit", function (event) {
+		event.preventDefault(); // Prevent default form submission behavior
+
+		// You can perform the form submission here
+		document.querySelector("form").submit(); // Submit the form
+
+		Swal.fire({
+			title: 'Success!',
+			text: 'Successfully Registered',
+			icon: 'success',
+			showCancelButton: false,
+			confirmButtonColor: '#3085d6',
+			confirmButtonText: 'OK'
+		}).then(function () {
+			window.location.replace("/login/");
+		});
+	});
+</script> {% endcomment %}
+
+
+ 
+
+	 <script>
+		document.querySelector('form').addEventListener('submit', function(event) {
+			event.preventDefault(); // Prevent default form submission behavior
+	
+			var password = document.getElementById('password').value;
+			var confirm_password = document.getElementById('confirm_password').value;
+			var termsCheckbox = document.querySelector('input[name="Terms"]');
+			
+			// Password validation
+			var passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/;
+			if (!passwordRegex.test(password)) {
+				// Display a pop-up message
+				alert('Password must include at least one uppercase letter, one lowercase letter, one digit, one special symbol, and be at least 8 characters long.');
+				return;
+			}
+			
+			// Confirm password validation
+			if (password !== confirm_password) {
+				// Display a pop-up message
+				alert('Password and confirm password do not match!');
+				return;
+			}
+			
+			// Terms and conditions checkbox validation
+			if (!termsCheckbox.checked) {
+				// Display a pop-up message
+				alert('Please agree to the terms of service and privacy policy.');
+				return;
+			}
+			
+			
+			// Perform the form submission
+			document.querySelector('form').submit();
+	
+			// Display success message and redirect
+			Swal.fire({
+				title: 'Success!',
+				text: 'Successfully Registered',
+				icon: 'success',
+				showCancelButton: false,
+				confirmButtonColor: '#3085d6',
+				confirmButtonText: 'OK'
+			}).then(function () {
+				window.location.replace('/login/');
+			});
+		});
+	
+		
+	</script>
+
+{% endblock %}    

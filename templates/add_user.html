@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+    <style>
+        /* Common Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #e8eaf6;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #5c6bc0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #5c6bc0;
+            color: #ffffff;
+        }
+        .sidebar a.add-users-btn {
+            background-color: #5c6bc0;
+            color: #ffffff;
+            font-weight: bold;
+            border: 2px solid #3949ab;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            margin-left: 400px;
+            font-weight: bolder;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: -120px; 
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eaf6;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="sidebar">
+        <a href="#" class="add-apps-btn">+ Add Apps</a>
+        <a href="#" class="add-users-btn" style="background-color: #3949ab; color: #ffffff;">+ Add Users</a>
+    </div> -->
+    <a href="/add_points/"><button type="submit" class="btn btn-primary" style="background-color: #b5bbdd;margin-left: 30px;margin-top: 10px;">Back</button></a>
+    <a href="/admin_logout/"><button type="submit" class="btn btn-primary" style="background-color: #b5bbdd; margin-left: 1350px; margin-top: 10px;">Logout</button></a>
+    <div class="main-content">
+        <div class="header">Users List</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Age</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in q %}
+                <tr>
+                    <td>{{ user.cust_user_id }}</td>
+                    <td>{{ user.fname }}</td>
+                    <td>{{ user.lname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.mobile }}</td>
+                    <td>{{ user.age }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Points</title>
+    <style>
+        /* Common Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #e8eaf6;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #5c6bc0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #5c6bc0;
+            color: #ffffff;
+        }
+        .sidebar a.add-apps-btn {
+            background-color: #5c6bc0;
+            color: #ffffff;
+            font-weight: bold;
+            border: 2px solid #3949ab;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 600px; /* Increased the width */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-container input,
+        .form-container select,
+        .form-container textarea,
+        .form-container button {
+            width: 100%;
+            padding: 12px; /* Ensures consistent padding for all */
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px; /* Consistent font size */
+            line-height: 1.5; /* Consistent text alignment */
+        }
+        .form-container button {
+            background-color: #1e88e5; /* Changed to blue */
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .form-container button:hover {
+            background-color: #1565c0; /* Darker blue on hover */
+        }
+        .sidebar a.add-users-btn {
+            background-color: #5c6bc0;
+            color: #ffffff;
+            font-weight: bold;
+            border: 2px solid #3949ab;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#" class="add-apps-btn">+ Add Apps</a>
+        <a href="#" class="add-users-btn">+ Add Users</a>
+        <a href="/all_users/" class="add-users-btn">All Users</a>
+        <a href="{% url 'logout' %}" class="add-users-btn">Logout</a>
+
+    </div>
+    <div class="main-content">
+        <div class="header" style="margin-left: 20px;">Hello {{e.fname}}!!</div>
+    </div>
+    <div class="form-container" style="margin-left: 450px;width: 900px;margin-top: -40px; margin-bottom: 10px;">
+            <div class="card mt-3">
+            <img src="{% static 'assets/img/GrujiSpeaks-img/app.jpg' %}" class="card-img-top" style="width:900px" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">About AppPointHub</h5>
+              <p class="card-text">In AppPointHub, users can get to know the most downloaded app and its additional information about it. You can see the points of the downloaded apps, which indicates the number of times the app was downloaded. </p>
+              <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+            </div>
+          </div>
+         
+    </div>
+    
+    <!-- Modal for Add Apps -->
+    <div class="modal" id="addAppsModal">
+        <div class="form-container">
+            <form method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="file-input" style="margin-left: 250px; cursor: pointer;">
+                    <img src="https://via.placeholder.com/80"  id="upload-icon" style="width: 80px; height: 80px;">
+                </label>
+                <input type="file" name="image" id="file-input" accept="image/*" style="display: none;" onchange="previewImage(this)" required>
+                <input type="text" name="app_name" placeholder="App Name" style="width: 575px;" required>
+                <input type="text" name="app_link" placeholder="App Link" style="width: 575px;"  required>
+                <select name="app_category" style="width: 599px;" required>
+                    <option value="" disabled selected>App Category</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Education">Education</option>
+                    <option value="Social Media">Social Media</option>
+                </select>
+                <select name="sub_category" style="width: 599px;" required>
+                    <option value="" disabled selected>Sub Category</option>
+                    <option value="Gaming">Gaming</option>
+                    <option value="Tools">Tools</option>
+                    <option value="News">News</option>
+                    <option value="Social Media">Social Media</option>
+                </select>
+                <button type="submit">Add Points</button>
+            </form>
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <!-- Modal for Add Users -->
+<div class="modal" id="addUsersModal">
+    <div class="form-container">
+        <form method="post" action="/add_user/">
+            {% csrf_token %}
+            <!-- <input type="text" name="cust_user_id" placeholder="User ID" style="width: 576px;" required> -->
+            <input type="text" name="fname" placeholder="First Name" style="width: 576px;" required>
+            <input type="text" name="lname" placeholder="Last Name" style="width: 576px;" required>
+            <input type="email" name="email" placeholder="Email" style="width: 576px;" required>
+            <input type="number" maxlength="10" name="mobile" placeholder="Mobile Number" style="width: 576px;" required oninput="this.value = this.value.replace(/^0-9/g, '').slice(0,10)"> 
+            <!-- <input type="number" maxlength="10" minlength="10" name="mobile" placeholder="Mobile Number" style="width: 576px;" required oninput="validateInput(this);">
+            <p id="error-msg" style="color: red; display: none;">Enter a valid 10-digit mobile number.</p> -->
+
+            <input type="number" name="age" placeholder="Age" style="width: 576px;" required>
+            <input type="password" name="password" placeholder="Password" style="width: 576px;" required>
+            <button type="submit">Add User</button>
+        </form>
+        <button onclick="closeUserModal()">Close</button>
+    </div>
+</div>
+
+    <script>
+        const addAppsBtn = document.querySelector('.add-apps-btn');
+        const modal = document.getElementById('addAppsModal');
+
+        // Open modal when "Add Apps" button is clicked
+        addAppsBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        // Close modal function
+        function closeModal() {
+            modal.classList.remove('active');
+        }
+    </script>
+    <script>
+        const addUsersBtn = document.querySelector('.add-users-btn');
+        const usersModal = document.getElementById('addUsersModal');
+
+        // Open modal when "Add Users" button is clicked
+        addUsersBtn.addEventListener('click', () => {
+            usersModal.classList.add('active');
+        });
+
+        // Close modal function for users
+        function closeUserModal() {
+            usersModal.classList.remove('active');
+        }
+
+    </script>
+    <script>
+        function previewImage(input) {
+    const file = input.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const uploadIcon = document.getElementById('upload-icon');
+            uploadIcon.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+    </script>
+
+<!-- <script>
+    function validateInput(input) {
+      // Get the input value and remove any non-numeric characters
+      var value = input.value.replace(/[^0-9]/g, '');
+    //   988065
+    
+      var errorMsg = document.getElementById('error-msg');
+      if (value.length == 10) {
+        errorMsg.style.display = 'none';   // Hide error message
+        console.log(value,"value")
+        
+        
+      // Check if the input value contains only the allowed digits
+    //   
+    }
+      else {
+           console.log("INside else")
+           errorMsg.style.display = 'block';  // Show error message
+        //    print("Please Enter Valid 10 Digit Mobile Number")
+      }
+
+    }
+
+  </script> -->
+  
+</body>
+</html>

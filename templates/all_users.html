@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users List</title>
+    <!-- Fontawesome CSS -->
+		<link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/fontawesome.min.css' %}">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        /* Common Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background-color: #e8eaf6;
+            position: fixed;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: #5c6bc0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #5c6bc0;
+            color: #ffffff;
+        }
+        .sidebar a.add-users-btn {
+            background-color: #5c6bc0;
+            color: #ffffff;
+            font-weight: bold;
+            border: 2px solid #3949ab;
+        }
+        .main-content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .header {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            margin-left: 400px;
+            font-weight: bolder;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: -120px; 
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #e8eaf6;
+            color: #333;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- <div class="sidebar">
+        <a href="#" class="add-apps-btn">+ Add Apps</a>
+        <a href="#" class="add-users-btn" style="background-color: #3949ab; color: #ffffff;">+ Add Users</a>
+    </div> -->
+    <a href="/add_points/"><button type="submit" class="btn btn-primary" style="background-color: #b5bbdd;margin-left: 30px;margin-top: 10px;">Back</button></a>
+    <a href="/admin_logout/"><button type="submit" class="btn btn-primary" style="background-color: #b5bbdd; margin-left: 1350px; margin-top: 10px;">Logout</button></a> 
+    <div class="main-content">
+        <div class="header">Users List</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Age</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in q %}
+                <tr>
+                    <td>{{ user.cust_user_id }}</td>
+                    <td>{{ user.fname }}</td>
+                    <td>{{ user.lname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.mobile }}</td>
+                    <td>{{ user.age }}</td>
+                    <!-- <td><button type="button">Make Admin</button></td> -->
+                    <td>
+                    <!-- <a  type="submit" href="/delete-district/{{data.id}}/"><i class="fa fa-trash" ></i></a> -->
+                    <a href="/delete_user/{{ user.cust_user_id }}/">
+                        <button style="background: none; border: none; cursor: pointer;" onclick="confirmDelete('{{ user.cust_user_id }}')">
+                            <i class="fa fa-trash" style="color: lightskyblue; font-size: 18px;"></i>
+                        </button>
+                    </a>
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+
+
+    <div class="main-content">
+        <div class="header">Roles</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Role Name</th>
+                    <th>Email</th>
+                    <th>Change Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in role %}
+                <tr>
+                    <td>{{ user.role_name }}</td>
+                    <td>{{ user.email }}</td>
+                    <form method="post" action="{% url 'change_role' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="email" value="{{ user.email }}">
+                        <!-- <input type="hidden" name="current_role" value="{{ user.role_name }}"> -->
+        
+                        {% if user.role_name == 'Admin' %}
+                           <td> <button type="submit" name="new_role" value="User">Make User</button></td>
+                        {% elif user.role_name == 'User' %}
+                            <td><button type="submit" name="new_role" value="Admin">Make Admin</button></td>
+                        {% endif %}
+                    </form>
+                </td>
+                </tr>
+
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if messages %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            {% for message in messages %}
+                Swal.fire({
+                    title: "Success!",
+                    text: "{{ message }}",
+                    icon: "success",
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "OK"
+                });
+            {% endfor %}
+        });
+    </script>
+{% endif %}  
+</body>
+</html>
