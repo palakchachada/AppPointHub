@@ -1,0 +1,17 @@
+# Ignore Python compiled files
+*.pyc
+__pycache__/
+
+# Ignore virtual environment
+venv/
+
+# Ignore database files (if using SQLite)
+db.sqlite3
+
+# Ignore environment variables (for MySQL credentials)
+.env
+
+# Ignore logs and static files
+*.log
+staticfiles/
+media/
